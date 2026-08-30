@@ -15,9 +15,9 @@ import com.example.demo.model.PingLog;
 import com.example.demo.repository.MonitoredServiceRepository;
 import com.example.demo.repository.PingLogRepository;
 
+@CrossOrigin(origins = "*") 
 @RestController
 @RequestMapping("/api/services")
-@CrossOrigin(origins = "*") 
 public class ServiceController {
 
     private final MonitoredServiceRepository serviceRepository;
