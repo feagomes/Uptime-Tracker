@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:8080/api/services" });
+const API = axios.create({
+  baseURL: "https://tracker-api-cd59.onrender.com/api/services",
+});
 
 export const getServices = () => API.get("");
 export const createService = (data) => API.post("", data);
