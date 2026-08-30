@@ -30,16 +30,17 @@ public class PingService {
         this.pingLogRepository = pingLogRepository;
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(5))
+                .followRedirects(HttpClient.Redirect.NORMAL)
                 .build();
     }
 
-    // Cadastra serviços padrão se o banco estiver vazio
+    
     @PostConstruct
     public void seedInitialServices() {
         if (serviceRepository.count() == 0) {
             serviceRepository.save(new MonitoredService("Google", "https://www.google.com"));
             serviceRepository.save(new MonitoredService("GitHub", "https://www.github.com"));
-            serviceRepository.save(new MonitoredService("Servidor de Erro (Simulado)", "http://httpbin.org/status/500"));
+            
         }
     }
 
@@ -56,6 +57,7 @@ public class PingService {
                         .uri(URI.create(service.getUrl()))
                         .GET()
                         .timeout(Duration.ofSeconds(5))
+                        .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
                         .build();
 
                 HttpResponse<Void> response = httpClient.send(request, HttpResponse.BodyHandlers.discarding());
